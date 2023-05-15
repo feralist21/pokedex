@@ -1,10 +1,11 @@
 <template>
-  <div class="container mx-auto">
-    <h1 class="text-3xl font-bold underline">Hello world!</h1>
-  </div>
+  <Header />
+  <Main />
+  <Footer />
 </template>
 
 <script setup>
+import Header from '@/components/organisms/header.vue';
+import Footer from '@/components/organisms/footer.vue';
+import Main from '@/components/organisms/main.vue';
 </script>
-
-<style></style>
