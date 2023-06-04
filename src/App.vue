@@ -1,11 +1,11 @@
 <template>
-	<Header />
-	<Main />
-	<Footer />
+	<HeaderSection />
+	<MainSection />
+	<FooterSection />
 </template>
 
 <script setup>
-import Header from '@/components/organisms/header.vue';
-import Footer from '@/components/organisms/footer.vue';
-import Main from '@/components/organisms/main.vue';
+import HeaderSection from '@/components/organisms/HeaderSection.vue';
+import FooterSection from '@/components/organisms/FooterSection.vue';
+import MainSection from '@/components/organisms/MainSection.vue';
 </script>
