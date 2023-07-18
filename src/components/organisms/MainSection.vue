@@ -19,7 +19,8 @@
 	</main>
 </template>
 <script setup>
-import PokemonListController from '@/API/PokemonList/PokemonListController';
+// import PokemonListController from '@/API/PokemonList/PokemonListController';
+import PokeDetailInfoController from '@/API/PokeDetailInfo/PokeDetailInfoController';
 import Container from '@/components/layout/Container.vue';
 import Search from '@/components/molecules/Search.vue';
 import Filter from '@/components/organisms/Filter.vue';
@@ -27,11 +28,11 @@ import Pagination from '@/components/molecules/Pagination.vue';
 import PokemonCard from '@/components/molecules/PokemonCard.vue'
 
 
-const foo = new PokemonListController();
+const foo = new PokeDetailInfoController();
 
 async function getList() {
 	try {
-		const resp = await foo.getPokemonList();
+		const resp = await foo.getDetailInfoUrl();
 		console.log(resp);
 	} catch (error) {
 		console.log(error);
