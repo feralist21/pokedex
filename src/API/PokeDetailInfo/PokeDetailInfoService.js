@@ -12,19 +12,14 @@ export default class PokeDetailInfoService {
 	}
 
 	async getDetailInfoUrl() {
-		try {
-			const pokeList = await this.pokemonList.getPokemonList();
+		const pokeList = await this.pokemonList.getPokemonList();
 
-            const detailInfo = pokeList.results.map((pokemon) => {
-				const pok = this.getPokeDetailInfo.bind(this, pokemon.url);
-				return pok;
-			});
+		const detailInfoPromise = pokeList.results.map((pokemon) => {
+			return this.getPokeDetailInfo(pokemon.url);
+		});
 
-			const foo = await Promise.all([...detailInfo.map((item) => item())]);
+		const detailInfo = await Promise.all(detailInfoPromise);
 
-			return foo;
-		} catch (error) {
-			console.log(error);
-		}
+		return detailInfo;
 	}
 }

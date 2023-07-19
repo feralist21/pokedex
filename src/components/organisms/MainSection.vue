@@ -8,10 +8,19 @@
 				</div>
 				<div class="w-4/5">
 					<div class="grid grid-cols-4 gap-4">
-						<PokemonCard class="col-span-1"/>
+						<template v-if="foo">
+							<PokemonCard
+								v-for="item in foo"
+								:key="item.id"
+								:title="item.name"
+								:img-src="item.sprites?.other.dream_world.front_default"
+								:serial-num="item.id"
+								class="col-span-1"
+							/>
+						</template>
 					</div>
 					<div class="mt-6">
-						<Pagination/>
+						<Pagination />
 					</div>
 				</div>
 			</div>
@@ -19,25 +28,33 @@
 	</main>
 </template>
 <script setup>
-// import PokemonListController from '@/API/PokemonList/PokemonListController';
-import PokeDetailInfoController from '@/API/PokeDetailInfo/PokeDetailInfoController';
-import Container from '@/components/layout/Container.vue';
-import Search from '@/components/molecules/Search.vue';
-import Filter from '@/components/organisms/Filter.vue';
-import Pagination from '@/components/molecules/Pagination.vue';
-import PokemonCard from '@/components/molecules/PokemonCard.vue'
+import PokeDetailInfoController from "@/API/PokeDetailInfo/PokeDetailInfoController";
+import Container from "@/components/layout/Container.vue";
+import Search from "@/components/molecules/Search.vue";
+import Filter from "@/components/organisms/Filter.vue";
+import Pagination from "@/components/molecules/Pagination.vue";
+import PokemonCard from "@/components/molecules/PokemonCard.vue";
 
+const pokeDetailInfoController = new PokeDetailInfoController();
 
-const foo = new PokeDetailInfoController();
+import { ref, onMounted, computed } from "vue";
+
+let pokeDetailList = ref(null);
+
+onMounted(() => {
+	getList();
+	console.log(pokeDetailList);
+});
 
 async function getList() {
 	try {
-		const resp = await foo.getDetailInfoUrl();
-		console.log(resp);
+		pokeDetailList.value = await pokeDetailInfoController.getDetailInfoUrl();
 	} catch (error) {
 		console.log(error);
 	}
 }
 
-getList();
+const foo = computed(() => {
+	return pokeDetailList.value ? pokeDetailList : [];
+});
 </script>
