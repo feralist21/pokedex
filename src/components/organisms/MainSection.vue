@@ -7,19 +7,18 @@
 					<Filter />
 				</div>
 				<div class="w-4/5">
-					<div class="grid grid-cols-4 gap-4">
-						<template v-if="foo">
-							<PokemonCard
-								v-for="item in foo"
-								:key="item.id"
-								:title="item.name"
-								:img-src="item.sprites?.other.dream_world.front_default"
-								:serial-num="item.id"
-								class="col-span-1"
-							/>
-						</template>
+					<div class="grid grid-cols-4 gap-8">
+						<PokemonCard
+							v-for="item in pokeDetailList"
+							:key="item.id"
+							:title="item.name"
+							:img-src="item.sprites.other.dream_world.front_default"
+							:serial-num="item.id"
+							:types="item.types"
+							class="col-span-1"
+						/>
 					</div>
-					<div class="mt-6">
+					<div class="mt-12 flex justify-center">
 						<Pagination />
 					</div>
 				</div>
@@ -37,13 +36,12 @@ import PokemonCard from "@/components/molecules/PokemonCard.vue";
 
 const pokeDetailInfoController = new PokeDetailInfoController();
 
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 
 let pokeDetailList = ref(null);
 
 onMounted(() => {
 	getList();
-	console.log(pokeDetailList);
 });
 
 async function getList() {
@@ -53,8 +51,4 @@ async function getList() {
 		console.log(error);
 	}
 }
-
-const foo = computed(() => {
-	return pokeDetailList.value ? pokeDetailList : [];
-});
 </script>

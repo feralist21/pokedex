@@ -1,37 +1,39 @@
 <template>
-	<div class="">
-		<div class="bg-gray-200 p-2 rounded-lg">
-			<img
-				class="block mx-auto w-auto h-48"
-				:src="imgSrc"
-				:alt="title"
-			/>
+	<div class="bg-gray-200 rounded-lg p-4">
+		<div class="rounded-lg">
+			<img class="block mx-auto w-auto h-48" :src="imgSrc" :alt="title" />
 		</div>
-		<div class="p-2">
-			<p class="mb-4 text-gray-600 text-xs font-medium">{{ serialNum }}</p>
-			<p class="text-xl text-black font-medium">{{ title }}</p>
-			<div class="mt-2 flex flex-wrap gap-1">
-				<div class="flex text-xs font-light px-6 py-0.5 rounded bg-green-500 text-">
-					grass
-				</div>
+		<div class="flex flex-col gap-y-2">
+			<p class="text-gray-600 text-xs font-medium">
+				#{{ serialNum.toString().padStart(3, 0) }}
+			</p>
+			<p class="text-xl text-black font-medium">{{ title.toUpperCase() }}</p>
+			<div v-if="types.length > 0" class="flex flex-wrap gap-1">
+				<pokeType v-for="item in types" :key="item.slot" :title="item.type.name" />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
+import pokeType from "@/components/atoms/pokeType.vue";
+
 defineProps({
 	title: {
 		type: String,
-		default: ''
+		default: "",
 	},
 	imgSrc: {
 		type: String,
-		default: '',
+		default: "",
 	},
 	serialNum: {
 		type: Number,
-		default: 0
+		default: 0,
+	},
+	types: {
+		type: Array,
+		default: () => [],
 	},
 });
 </script>
