@@ -21,8 +21,10 @@
 			'bg-pink-500 text-white': title === 'fairy',
 			'bg-neutral-500 text-white': title === 'shadow',
 			'bg-rose-800 text-white': title === 'unknown',
+			'px-6 py-1 text-xs' : view === 'small',
+			'px-8 py-1 text-s' : view === 'medium',
 		}"
-		class="px-6 py-1 rounded-md text-xs"
+		class="rounded-md"
 	>
 		{{ title }}
 	</div>
@@ -32,7 +34,11 @@
 defineProps({
 	title: {
 		type: String,
-		default: "",
+		default: '',
+	},
+	view: {
+		type: String,
+		default: 'small',
 	},
 });
 </script>
