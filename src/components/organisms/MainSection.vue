@@ -27,28 +27,20 @@
 	</main>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from 'vue';
 
-import Container from "@/components/layout/Container.vue";
-import Search from "@/components/molecules/Search.vue";
-import Filter from "@/components/organisms/Filter.vue";
-import Pagination from "@/components/molecules/PaginationMain.vue";
-import PokemonCard from "@/components/molecules/PokemonCard.vue";
+import Container from '@/components/layout/Container.vue';
+import Search from '@/components/molecules/Search.vue';
+import Filter from '@/components/organisms/Filter.vue';
+import Pagination from '@/components/molecules/PaginationMain.vue';
+import PokemonCard from '@/components/molecules/PokemonCard.vue';
 import PokeAPI from '@/API/PokeAPI';
 
 const api = new PokeAPI();
 
 let pokeDetailList = ref(null);
 
-onMounted(() => {
-	getList();
-});
-
-async function getList() {
-	try {
-		pokeDetailList.value = await api.getDetailInfoPokemon();
-	} catch (error) {
-		console.log(error);
-	}
-}
+api.getPokemonList()
+	.then((data) => console.log(data))
+	.catch((error) => console.error(error));
 </script>

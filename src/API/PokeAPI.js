@@ -1,51 +1,57 @@
-import DEFAILT_POKE_PATH from "@/utils/constants";
-
 export default class PokeAPI {
 	constructor() {
-		this.pokemonPath = "/pokemon";
-        this.main = null;
+		this.baseUrl = 'https://pokeapi.co/api/v2/';
 	}
 
-	async getData(url) {
-		const responce = await fetch(url);
-		const data = await responce.json();
-		return data;
+    async getPokemonList() {
+        try {
+            const response = await fetch(`${this.baseUrl}pokemon`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch Pokemon list data');
+            }
+            const pokemonList = await response.json();
+            return pokemonList;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+	async getPokemon(pokemonName) {
+		try {
+			const response = await fetch(`${this.baseUrl}pokemon/${pokemonName}`);
+			if (!response.ok) {
+				throw new Error('Failed to fetch Pokemon data');
+			}
+			const pokemonData = await response.json();
+			return pokemonData;
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
-	async getPokemonMain() {
-        const data = await this.getData(`${DEFAILT_POKE_PATH}${this.pokemonPath}`); 
-		this.main = await data;
-
-        return data;
+	async getPokemonSpecies(pokemonName) {
+		try {
+			const response = await fetch(`${this.baseUrl}pokemon-species/${pokemonName}`);
+			if (!response.ok) {
+				throw new Error('Failed to fetch Pokemon species data');
+			}
+			const speciesData = await response.json();
+			return speciesData;
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
-    async getDetailInfoPokemon() {
-        if (!this.main) {
-            await this.getPokemonMain();
-        }
-
-        const detailInfoPromise = this.main.results.map((pokemon) => {
-			return this.getData(pokemon.url);
-		});
-
-        const detailInfo = await Promise.all(detailInfoPromise);
-
-        return detailInfo;
-    }
-
-    async getNextPage() {
-        if (!this.main) {
-            await this.getPokemonMain();
-        }
-
-        this.main = await this.getData(this.main.next);
-    }
-
-    async getPrevPage() {
-        if (!this.main) {
-            await this.getPokemonMain();
-        }
-
-        this.main = await this.getData(this.main.previous);
-    }
+	async getAbility(abilityName) {
+		try {
+			const response = await fetch(`${this.baseUrl}ability/${abilityName}`);
+			if (!response.ok) {
+				throw new Error('Failed to fetch ability data');
+			}
+			const abilityData = await response.json();
+			return abilityData;
+		} catch (error) {
+			console.error(error);
+		}
+	}
 }
