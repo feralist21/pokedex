@@ -9,8 +9,9 @@
 				<div class="w-4/5 flex flex-col gap-y-10">
 					<div class="grid grid-cols-4 gap-8">
 						<PokemonCard
-							v-for="item in pokeDetailList"
+							v-for="item in pokemonSummaryData"
 							:key="item.id"
+							:href="item.name"
 							:title="item.name"
 							:img-src="item.sprites.other.dream_world.front_default"
 							:serial-num="item.id"
@@ -27,7 +28,7 @@
 	</main>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 import Container from '@/components/layout/Container.vue';
 import Search from '@/components/molecules/Search.vue';
@@ -38,9 +39,30 @@ import PokeAPI from '@/API/PokeAPI';
 
 const api = new PokeAPI();
 
-let pokeDetailList = ref(null);
+const pokemonDatailList = ref({});
+const pokemonSummaryData = ref([]);
 
-api.getPokemonList()
-	.then((data) => console.log(data))
-	.catch((error) => console.error(error));
+async function buildPokemonInfo() {
+	try {
+		const dataList = await api.getPokemonList();
+		pokemonDatailList.value = await dataList;
+		buildDetailPokemonInfo(pokemonDatailList.value.results)
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+function buildDetailPokemonInfo(pokemonDataList) {
+	const pokemonDetailPromise = pokemonDataList.map((pokemon) =>
+		api.getPokemon(pokemon.name),
+	);
+	Promise.all(pokemonDetailPromise)
+		.then((detailInfoAllPokemon) => (pokemonSummaryData.value = detailInfoAllPokemon))
+		.catch((error) => console.error(error));
+}
+
+onMounted(() => {
+	buildPokemonInfo();
+})
+
 </script>

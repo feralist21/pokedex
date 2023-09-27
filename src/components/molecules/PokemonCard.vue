@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-gray-200 rounded-lg p-4 flex flex-col gap-2">
+	<a :href="href" class="bg-gray-200 rounded-lg p-4 flex flex-col gap-2">
 		<div class="rounded-lg">
 			<img class="block mx-auto w-auto h-48" :src="imgSrc" :alt="title" />
 		</div>
@@ -9,23 +9,32 @@
 			</p>
 			<p class="text-xl text-black font-medium">{{ title.toUpperCase() }}</p>
 			<div v-if="types.length > 0" class="flex flex-wrap gap-1">
-				<pokeTag v-for="item in types" :key="item.slot" :title="item.type.name" />
+				<pokeTag
+					v-for="item in types"
+					:key="item.slot"
+					:title="item.type.name"
+					:bg="item.type.name"
+				/>
 			</div>
 		</div>
-	</div>
+	</a>
 </template>
 
 <script setup>
-import pokeTag from "@/components/atoms/pokeTag.vue";
+import pokeTag from '@/components/atoms/pokeTag.vue';
 
 defineProps({
+	href: {
+		type: String,
+		default: '',
+	},
 	title: {
 		type: String,
-		default: "",
+		default: '',
 	},
 	imgSrc: {
 		type: String,
-		default: "",
+		default: '',
 	},
 	serialNum: {
 		type: Number,
