@@ -4,7 +4,7 @@
 			<Search />
 			<div class="flex gap-6">
 				<div class="w-1/5 pr-6 border-r-2 border-zinc-100">
-					<Filter />
+					<FilterPokemon />
 				</div>
 				<div class="w-4/5 flex flex-col gap-y-10">
 					<div class="grid grid-cols-4 gap-8">
@@ -32,7 +32,7 @@ import { ref, onMounted } from 'vue';
 
 import Container from '@/components/layout/Container.vue';
 import Search from '@/components/molecules/Search.vue';
-import Filter from '@/components/organisms/Filter.vue';
+import FilterPokemon from '@/components/organisms/FilterPokemon.vue';
 import Pagination from '@/components/molecules/PaginationMain.vue';
 import PokemonCard from '@/components/molecules/PokemonCard.vue';
 import PokeAPI from '@/API/PokeAPI';

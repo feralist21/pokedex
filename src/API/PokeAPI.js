@@ -22,4 +22,8 @@ export default class PokeAPI {
 	getAbility(abilityName) {
 		return client.get(`${this.baseUrl}ability/${abilityName}`);
 	}
+
+	getTypes() {
+		return client.get(`${this.baseUrl}type`);
+	}
 }
