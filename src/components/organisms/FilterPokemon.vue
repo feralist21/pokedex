@@ -6,7 +6,7 @@
 			<select
 				v-model="selectedType"
 				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-				@change="changedTypes()"
+				@change="changedTypes(selectedType)"
 			>
 				<option disabled value="">Choose a type</option>
 				<option v-for="(type, index) in typesList" :key="index" :value="type.name">
@@ -18,12 +18,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, defineEmits } from 'vue';
 import PokeAPI from '@/API/PokeAPI';
 
 const api = new PokeAPI();
-const router = useRouter();
+
+const emits = defineEmits({
+	changePokemonType: ({ type }) => {
+		console.log(type);
+		if (type) {
+			return type;
+		} else {
+			console.error('Invalid type event payload!');
+		}
+	},
+});
 
 // Data
 const typesList = ref(null);
@@ -39,13 +48,8 @@ async function getTypes() {
 	}
 }
 
-function changedTypes() {
-	router.push({
-		name: 'home',
-		query: {
-			filter: selectedType.value,
-		}
-	})
+function changedTypes(type) {
+	emits('changePokemonType', { type } );
 }
 
 // Mounted
