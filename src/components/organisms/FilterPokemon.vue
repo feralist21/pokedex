@@ -25,7 +25,6 @@ const api = new PokeAPI();
 
 const emits = defineEmits({
 	changePokemonType: ({ type }) => {
-		console.log(type);
 		if (type) {
 			return type;
 		} else {

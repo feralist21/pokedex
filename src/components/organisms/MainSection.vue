@@ -4,7 +4,7 @@
 			<Search />
 			<div class="flex gap-6">
 				<div class="w-1/5 pr-6 border-r-2 border-zinc-100">
-					<FilterPokemon />
+					<FilterPokemon @change-pokemon-type="filteredPokemons" />
 				</div>
 				<div class="w-4/5 flex flex-col gap-y-10">
 					<div class="grid grid-cols-4 gap-8">
@@ -44,25 +44,35 @@ const pokemonSummaryData = ref([]);
 
 async function buildPokemonInfo() {
 	try {
-		const dataList = await api.getPokemonList();
-		pokemonDatailList.value = await dataList;
-		buildDetailPokemonInfo(pokemonDatailList.value.results)
+		pokemonDatailList.value = await api.getPokemonList();
+		buildDetailPokemonInfo(pokemonDatailList.value.results);
 	} catch (error) {
 		console.error(error);
 	}
 }
 
 function buildDetailPokemonInfo(pokemonDataList) {
-	const pokemonDetailPromise = pokemonDataList.map((pokemon) =>
-		api.getPokemon(pokemon.name),
-	);
+	const pokemonDetailPromise = pokemonDataList.map((pokemon) => {
+		return api.getPokemon(pokemon.name);
+	});
 	Promise.all(pokemonDetailPromise)
 		.then((detailInfoAllPokemon) => (pokemonSummaryData.value = detailInfoAllPokemon))
 		.catch((error) => console.error(error));
 }
 
+async function filteredPokemons(typeObject) {
+	try {
+		const responce = await api.getPokemonsFilteredByType(typeObject.type);
+		const formatResponce = responce.pokemon.map((item) => {
+			return item.pokemon;
+		});
+		buildDetailPokemonInfo(formatResponce);
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 onMounted(() => {
 	buildPokemonInfo();
-})
-
+});
 </script>

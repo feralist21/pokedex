@@ -26,4 +26,8 @@ export default class PokeAPI {
 	getTypes() {
 		return client.get(`${this.baseUrl}type`);
 	}
+
+	getPokemonsFilteredByType(typeName) {
+		return client.get(`${this.baseUrl}type/${typeName}`);
+	}
 }
